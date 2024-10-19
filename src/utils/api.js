@@ -6,9 +6,8 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-/**
- * console.log all requests and responses
- */
+
+
 api.interceptors.request.use(
   (request) => {
     console.log("Starting Request", request);
