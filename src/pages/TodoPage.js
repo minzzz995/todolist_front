@@ -11,12 +11,18 @@ const TodoPage = () => {
   const [todoValue, setTodoValue] = useState("");
 
   const getTasks = async () => {
-    const response = await api.get("/tasks");
-    setTodoList(response.data.data);
+    try {
+      const response = await api.get("/tasks");
+      setTodoList(response.data.data);
+    } catch (error) {
+      console.log("Error fetching tasks:", error);
+    }
   };
+
   useEffect(() => {
     getTasks();
   }, []);
+
   const addTodo = async () => {
     try {
       const response = await api.post("/tasks", {
@@ -24,39 +30,14 @@ const TodoPage = () => {
         isComplete: false,
       });
       if (response.status === 200) {
-        getTasks();
+        setTodoValue("");  // 입력 필드를 초기화
+        getTasks();  // 할 일 목록을 새로고침
       }
-      setTodoValue("");
     } catch (error) {
-      console.log("error:", error);
+      console.log("Error adding task:", error);
     }
   };
 
-  const deleteItem = async (id) => {
-    try {
-      console.log(id);
-      const response = await api.delete(`/tasks/${id}`);
-      if (response.status === 200) {
-        getTasks();
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const toggleComplete = async (id) => {
-    try {
-      const task = todoList.find((item) => item._id === id);
-      const response = await api.put(`/tasks/${id}`, {
-        isComplete: !task.isComplete,
-      });
-      if (response.status === 200) {
-        getTasks();
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
   return (
     <Container>
       <Row className="add-item-row">
@@ -76,11 +57,8 @@ const TodoPage = () => {
         </Col>
       </Row>
 
-      <TodoBoard
-        todoList={todoList}
-        deleteItem={deleteItem}
-        toggleComplete={toggleComplete}
-      />
+      {/* TodoBoard에 todoList와 getTasks를 전달 */}
+      <TodoBoard todoList={todoList} getTasks={getTasks} />
     </Container>
   );
 };
