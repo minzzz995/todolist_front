@@ -41,6 +41,10 @@ const RegisterPage = () => {
       }
     } catch (error) {
       setError(error.message);
+      setName('');
+      setEmail('');
+      setPassword('');
+      setSecPassword('');
     }
   };
 
@@ -51,22 +55,22 @@ const RegisterPage = () => {
         <h1>회원가입</h1>
         <Form.Group className="mb-3" controlId="formName">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="string" placeholder="Name" onChange={(event) => setName(event.target.value)} />
+          <Form.Control type="string" placeholder="Name" value={name} onChange={(event) => setName(event.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={(event) => setEmail(event.target.value)} />
+          <Form.Control type="email" placeholder="Enter email" value={email} onChange={(event) => setEmail(event.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
+          <Form.Control type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>re-enter the password</Form.Label>
-          <Form.Control type="password" placeholder="re-enter the password" onChange={(event) => setSecPassword(event.target.value)} />
+          <Form.Control type="password" placeholder="re-enter the password" value={secPassword} onChange={(event) => setSecPassword(event.target.value)} />
         </Form.Group>
 
         <Button className="button-primary" type="submit">
