@@ -3,24 +3,23 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import api from "../utils/api"
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({user, setUser}) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [user, setUser] = useState('')
   const navigate = useNavigate()
 
   const handleLogin = async(event) => {
     event.preventDefault()
     try{
       
-      // 유효성 검사
       if (!email) {
         throw new Error("이메일을 입력해주세요.");
       }
+
       if (!password) {
         throw new Error("비밀번호를 입력해주세요.");
       }
@@ -36,9 +35,14 @@ const LoginPage = () => {
       throw new Error(response.message)
 
     } catch (error) {
-      setError(error.message)
+      setError("로그인에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
     }
   }
+  
+  if(user){
+    return<Navigate to="/" />
+  }
+
   return (
     <div className="display-center">
       {error && <div className="red-error">{error}</div>}

@@ -95,3 +95,24 @@ button{
 .red-error{
   color: red;
 }
+
+.button-logout {
+  background-color: lightblue;
+  color: white;
+  border: 2px solid lightblue;  /* 기본 상태에서 border 추가 */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 10px 0;
+  transition: background-color 0.3s ease, color 0.3s ease;  /* transition에서 border는 제거 */
+  position: absolute;
+  top: 20px;  /* 상단에서 20px */
+  right: 20px;  /* 오른쪽에서 20px */
+}
+
+.button-logout:hover {
+  background-color: white;
+  color: lightblue;
+  border-color: lightblue;  /* border 색상만 변경 */
+}

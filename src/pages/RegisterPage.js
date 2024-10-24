@@ -37,10 +37,10 @@ const RegisterPage = () => {
       if (response.status === 200) {
         navigate('/login');
       } else {
-        throw new Error(response?.data?.error || "서버에서 응답이 없습니다.");
+        throw new Error(response?.data?.message || "서버에서 응답이 없습니다.");
       }
     } catch (error) {
-      setError(error.message);  // 에러 메시지를 설정합니다.
+      setError(error.message);
     }
   };
 

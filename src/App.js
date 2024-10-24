@@ -6,33 +6,46 @@ import LoginPage from "./pages/LoginPage";
 import TodoPage from "./pages/TodoPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./Route/PrivateRoute";
+import LogoutButton from "./components/LogoutButton";  // 로그아웃 버튼 추가
+
 import api from "./utils/api";  // api import 추가
 
 function App() {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    getUser(); 
+  }, []);
+
   const getUser = async () => {
     try {
       const token = sessionStorage.getItem("token");
       if (token) {
+        api.defaults.headers["authorization"] = "Bearer " + token;
         const response = await api.get("/user/me");
-        setUser(response.data.user);  // 사용자 정보 설정
+        setUser(response.data.user);  
       }
     } catch (error) {
+      setUser(null)
       console.log("Error fetching user data", error);
     }
   };
 
-  useEffect(() => {
-    getUser();  // 컴포넌트가 처음 렌더링될 때 사용자 정보 가져옴
-  }, []);
-
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<PrivateRoute user={user}><TodoPage /></PrivateRoute>} />
-    </Routes>
+    <>
+        <div className="app-container">
+            {user && (
+                <div className="logout-container">
+                    <LogoutButton setUser={setUser} />
+                </div>
+            )}
+            <Routes>
+                <Route path="/login" element={<LoginPage user={user} setUser={setUser} />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/" element={<PrivateRoute user={user}><TodoPage /></PrivateRoute>} />
+            </Routes>
+        </div>
+    </>
   );
 }
 
